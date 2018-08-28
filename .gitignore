@@ -552,3 +552,8 @@ example/target/streams/test/test/isModule=false name=example.ListsSuite/test/out
 example/target/streams/test/unmanagedClasspath/$global/streams/export
 example/target/streams/test/unmanagedJars/$global/streams/export
 example/target/test-reports/example.ListsSuite.xml
+example/target/streams/compile/packageSubmission/$global/streams/output
+example/target/streams/$global/submit/$global/streams/out
+example/target/streams/compile/packageSubmission/$global/streams/inputs
+example/target/streams/compile/packageSubmission/$global/streams/out
+example/target/scala-2.11/progfun1-example_2.11-0.1-SNAPSHOT.jar
