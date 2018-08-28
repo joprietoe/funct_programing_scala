@@ -45,21 +45,36 @@ object Lists {
    * @return The largest element in `xs`
    * @throws java.util.NoSuchElementException if `xs` is an empty list
    */
-    def max(xs: List[Int]): Int = {
-       @annotation.tailrec
+    def max(xs: List[Int]): Int = { 
+      
+      if(xs.isEmpty)
+        throw new NoSuchElementException("No element")
+      else {
+        def aux_max(xs: List[Int], res: Int): Int = {
+          
+          if(xs.isEmpty) res
+          else {
+            val v = if(xs.head >= res) xs.head else res
+            aux_max(xs.tail,v) 
+          }
+        }
+        aux_max(xs,xs.head)
+      }
+    }
+}
+ /*@annotation.tailrec
       if(xs.isEmpty)
         throw new NoSuchElementException("Not element")
-      else{
+      //else{
         
-        def aux_max(xs: List[Int], res:Int):Int{
-        if(xs.isEmpty) res 
-        else {
-           val max = if(res >= xs.head) res else xs.head  
-           aux_max(xs.tail,max)
-      }
+        def aux_max(xs: List[Int], res:Int):Int = {
+          if(xs.isEmpty) res 
+          else {
+            val max = if(res >= xs.head) res else xs.head  
+            aux_max(xs.tail,max)
+          }
 
-     }  
+        }  
       
-     aux_max(xs, Math.MIN_INT) 
-    }
-  }
+        aux_max(xs, Math.MIN_INT) 
+      //}*/
