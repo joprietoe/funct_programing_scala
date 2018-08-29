@@ -8,20 +8,43 @@ object Main {
         print(pascal(col, row) + " ")
       println()
     }
+
+    println(balance("(if (zero? x) max (/ 1 x))".toList))
+    println(balance("I told him (that it’s not (yet) done). (But he wasn’t listening)".toList))
+    println(balance(":-)".toList))
+    println(balance("())(".toList))
   }
 
   /**
    * Exercise 1
    */
-    def pascal(c: Int, r: Int): Int = ???
+    def pascal(c: Int, r: Int): Int = {
+        if((c == 0 || r == 0) || c == r) 1 
+        else pascal(c-1,r-1) + pascal(c,r-1)
+    }
   
   /**
    * Exercise 2
    */
-    def balance(chars: List[Char]): Boolean = ???
+    def balance(chars: List[Char]): Boolean = {
+      
+      @annotation.tailrec
+      def auxBalance(chars: List[Char], bal: Int): Boolean = {
+        if(bal < 0) false
+        /*else if(chars.isEmpty && bal == 0) true 
+        else if (chars.isEmpty && bal != 0) false*/
+        else if(chars.isEmpty) bal == 0
+        else if(chars.head == '(') auxBalance(chars.tail, bal + 1)
+        else if(chars.head == ')') auxBalance(chars.tail, bal - 1)
+        else auxBalance(chars.tail, bal)
+      }
+      auxBalance(chars,0)
+    }
   
   /**
    * Exercise 3
    */
-    def countChange(money: Int, coins: List[Int]): Int = ???
+    def countChange(money: Int, coins: List[Int]): Int = {
+      
+    }
   }
