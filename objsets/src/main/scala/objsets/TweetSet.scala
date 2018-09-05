@@ -41,7 +41,7 @@ abstract class TweetSet {
    * Question: Can we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def filter(p: Tweet => Boolean): TweetSet = ???
+    def filter(p: Tweet => Boolean): TweetSet = filterAcc(p, new Empty)
   
   /**
    * This is a helper method for `filter` that propagetes the accumulated tweets.
@@ -54,7 +54,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def union(that: TweetSet): TweetSet = ???
+    def union(that: TweetSet): TweetSet  //Abstract
   
   /**
    * Returns the tweet from this set which has the greatest retweet count.
@@ -65,7 +65,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def mostRetweeted: Tweet = ???
+    def mostRetweeted: Tweet // Abstract
   
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -107,7 +107,7 @@ abstract class TweetSet {
 }
 
 class Empty extends TweetSet {
-    def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = ???
+    def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = new Empty
   
   /**
    * The following methods are already implemented
@@ -120,6 +120,10 @@ class Empty extends TweetSet {
   def remove(tweet: Tweet): TweetSet = this
 
   def foreach(f: Tweet => Unit): Unit = ()
+
+  def union(that: TweetSet): TweetSet = that
+
+  def mostRetweeted: Tweet = new throw java.util.NoSuchElementException("EmptySet")
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -151,6 +155,30 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     f(elem)
     left.foreach(f)
     right.foreach(f)
+  }
+
+  def union(that: TweetSet): TweetSet = {
+    ((left union right) union that) incl(elem)
+  }
+
+  def mostRetweeted: Tweet = {
+
+    def aux(t:TweetSet):Tweet = {
+
+      try{
+        val tweetLeft = aux(left)
+        val tweetRight = aux(right)
+        if(elem.retweets > tweetLeft.retweets && 
+          elem.retweets > tweetRight.retweets) elem
+        else if(tweetLeft.retweets > elem.retweets && 
+                tweetLeft.retweets > tweetRight.retweets) tweetLeft
+        else  tweetRight
+      }
+      catch {
+        case ex: java.util.NoSuchElementException => -1
+      }
+    }
+    aux()
   }
 }
 
