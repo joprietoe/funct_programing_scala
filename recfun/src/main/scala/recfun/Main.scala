@@ -9,10 +9,6 @@ object Main {
       println()
     }
 
-    println(balance("(if (zero? x) max (/ 1 x))".toList))
-    println(balance("I told him (that it’s not (yet) done). (But he wasn’t listening)".toList))
-    println(balance(":-)".toList))
-    println(balance("())(".toList))
   }
 
   /**
@@ -45,6 +41,9 @@ object Main {
    * Exercise 3
    */
     def countChange(money: Int, coins: List[Int]): Int = {
-      
-    }
+      if (coins.isEmpty || money < 0) 0
+      else if (money == 0 && !coins.isEmpty) 1
+      else countChange(money - coins.head, coins) + countChange(money, coins.tail)
+
   }
+}
