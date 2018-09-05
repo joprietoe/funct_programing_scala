@@ -178,7 +178,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
         case ex: java.util.NoSuchElementException => -1
       }
     }
-    aux()
+    aux(this)
   }
 }
 
