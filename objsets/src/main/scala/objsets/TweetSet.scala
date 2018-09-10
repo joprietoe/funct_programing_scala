@@ -172,22 +172,19 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   }
 
   def union(that: TweetSet): TweetSet = {
-    /*val aux = left union right 
-    val aux2 = aux union that
-    aux2 incl elem*/
-    //right union (left union (that incl elem))
-    //right union left union that incl elem
-    left.union(right.union(that)).incl(elem)
+    val aux = left union that 
+    val aux2 = right union aux
+    aux2 incl elem
   }
 
   def mostRetweeted: Tweet = {
 
-    def go(t1:Tweet, t2:Tweet):Tweet = {
-      if(t1.retweets >= t2.retweets) t1 else t2
+    try {
+      val temp = (left union right).mostRetweeted
+      if (temp.retweets > elem.retweets) temp else elem
+    } catch {
+      case e: NoSuchElementException => elem
     }
-    if(left.isEmpty && right.isEmpty) elem
-    else if(left.isEmpty) go(elem,right.mostRetweeted)
-    else go(elem,left.mostRetweeted)
   }
 
   def descendingByRetweet: TweetList = {
