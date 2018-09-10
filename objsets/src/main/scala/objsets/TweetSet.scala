@@ -172,9 +172,11 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   }
 
   def union(that: TweetSet): TweetSet = {
-    val aux = left union right
+    /*val aux = left union right 
     val aux2 = aux union that
-    aux2 incl elem
+    aux2 incl elem*/
+    //right union (left union (that incl elem))
+    right union left union that incl elem
   }
 
   def mostRetweeted: Tweet = {
